@@ -10,10 +10,6 @@ import {
 } from "react-router-dom";
 
 
-
-
-
-
 import axios from 'axios';
 
 class App extends React.Component {
@@ -24,8 +20,9 @@ class App extends React.Component {
     }
   }
 
-  //TODO: use axios to call out to my server get all the books from the DB 
 
+
+  //TODO: use axios to call out to my server get all the books from the DB 
   getBooks = async () => {
     try {
       let url = `${process.env.REACT_APP_SERVER}/books`
@@ -33,7 +30,7 @@ class App extends React.Component {
       let bookData = await axios.get(url);
 
       this.setState({
-        cats: catsData.data
+        books: bookData.data
       });
 
     } catch (error) {
@@ -41,9 +38,6 @@ class App extends React.Component {
     }
 
   }
-
-
-
 
   render() {
     console.log('App State >>>', this.state);
