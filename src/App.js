@@ -16,7 +16,7 @@ import {
 
 import axios from 'axios';
 
-Class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,26 +45,24 @@ Class App extends React.Component {
 
 
 
-  class App extends React.Component {
-    render() {
-      console.log('App State >>>', this.state);
-      return (
-        <>
-          <Router>
-            <Header />
-            <Routes>
-              <Route
-                exact path="/"
-                element={<BestBooks />}
-              >
-              </Route>
-              {/* PLACEHOLDER: add a route with a path of '/about' that renders the `About` component */}
-            </Routes>
-            <Footer />
-          </Router>
-        </>
-      )
-    }
+  render() {
+    console.log('App State >>>', this.state);
+    return (
+      <>
+        <Router>
+          <Header />
+          <Routes>
+            <Route
+              exact path="/"
+              element={<BestBooks />}
+            >
+            </Route>
+            {/* PLACEHOLDER: add a route with a path of '/about' that renders the `About` component */}
+          </Routes>
+          <Footer />
+        </Router>
+      </>
+    )
   }
-
+}
   export default App;
