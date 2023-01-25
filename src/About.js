@@ -1,15 +1,13 @@
-import { Component } from "react";
-
-class Profile extends Component {
-
+import React, { Component } from 'react'
+// import Link from "react-router-dom"
+export default class About extends Component {
   render() {
-    /* TODO: render information about the developers */
-    return
-    <>
-      <P>This is information about Ken Holt</P>
-      <P>This is information about Dominick Martin</P>
-    </>
+    return (
+      <div>
+           {/* <Link to='about'>about us</Link> */}
+        <p>Dominick Martin</p>
+        <p>Ken Holt</p>
+      </div>
+    )
   }
-};
-
-export default Profile;
+}
