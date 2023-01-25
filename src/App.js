@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import BestBooks from './BestBooks';
+import Books from './Books';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
@@ -9,38 +9,17 @@ import {
   Route
 } from "react-router-dom";
 
-
-import axios from 'axios';
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      BestBooks: [],
+      Books: [],
     }
   }
 
-
-
-  //TODO: use axios to call out to my server get all the books from the DB 
-  getBooks = async () => {
-    try {
-      let url = `${process.env.REACT_APP_SERVER}/books`
-
-      let bookData = await axios.get(url);
-
-      this.setState({
-        books: bookData.data
-      });
-
-    } catch (error) {
-      console.log(error.response)
-    }
-
-  }
+  // PLACEHOLDER: add a route with a path of '/about' that renders the `About` component
 
   render() {
-    console.log('App State >>>', this.state);
     return (
       <>
         <Router>
@@ -48,10 +27,16 @@ class App extends React.Component {
           <Routes>
             <Route
               exact path="/"
-              element={<BestBooks />}
-            >
+              element={<Books
+                Books={this.state.Books}
+            />}
+          >
+          </Route>
+          <Route
+            exact path="/about"
+            element={<About />}
+          >
             </Route>
-            {/* PLACEHOLDER: add a route with a path of '/about' that renders the `About` component */}
           </Routes>
           <Footer />
         </Router>
@@ -59,4 +44,5 @@ class App extends React.Component {
     )
   }
 }
-  export default App;
+
+export default App;
