@@ -63,29 +63,29 @@ class Books extends React.Component {
 
 
 
-  updateBooks = async (bookToUpdate) => {
-    try {
-      //TODO: URL SET FOR AXIOS 
-      let url = `${process.env.REACT_APP_SERVER}/cats/${bookToUpdate}`
+  // updateBooks = async (bookToUpdate) => {
+  //   try {
+  //     //TODO: URL SET FOR AXIOS 
+  //     let url = `${process.env.REACT_APP_SERVER}/cats/${bookToUpdate}`
 
-      let updatedBook = await axios.put(url, bookToUpdate);
+  //     let updatedBook = await axios.put(url, bookToUpdate);
 
-      //TODO: UPDATE STATE WITH THTA RETURN FROM AXIOS
+  //     //TODO: UPDATE STATE WITH THTA RETURN FROM AXIOS
 
-      let updateBookArray = this.state.books.map(existingBook => {
+  //     let updateBookArray = this.state.books.map(existingBook => {
 
-        return existingBook._id === bookToUpdate._id
-          ? updatedBook.data
-          : existingBook
+  //       return existingBook._id === bookToUpdate._id
+  //         ? updatedBook.data
+  //         : existingBook
 
 
-      })
+  //     })
 
-    } catch (error) {
-      console.log(error.messgae)
-    }
+  //   } catch (error) {
+  //     console.log(error.messgae)
+  //   }
 
-  }
+  // }
 
 
   // //*** Create book handlers:  1 to handle the form subissio & 1 to the DB  */
