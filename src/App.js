@@ -7,33 +7,14 @@ import './style.css';
 import {
   BrowserRouter as Router,
   Routes,
-  Link,
   Route
 } from "react-router-dom";
 import About from './About.js';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      Books: [],
-    }
-  }
+class App extends React.Component{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-  
   // PLACEHOLDER: add a route with a path of '/about' that renders the `About` component
 
   render() {
@@ -44,7 +25,6 @@ class App extends React.Component {
 
           <Routes>
             <Route
-              // eslint-disable-next-line react/jsx-no-comment-textnodes
             path="/"
               element={<Books />}
 
