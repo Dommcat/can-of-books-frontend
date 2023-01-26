@@ -3,3 +3,14 @@
   --bs-nav-link-color:white;
 
 }
+
+.carousel{
+  width: 800px;
+  height: 800px;
+  margin: auto;
+}
+
+.carouselimage{
+  width: 100%;
+  height:100%;
+}

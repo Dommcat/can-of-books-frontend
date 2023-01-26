@@ -1,19 +1,18 @@
 import axios from 'axios';
 import React from 'react';
-// import axios from 'axios';
-import { Carousel } from 'react-bootstrap';
+import { Carousel, Button } from 'react-bootstrap';
 import bookimg from './assets/bookimg.jpg'
 
-class BestBooks extends React.Component {
+
+
+class Books extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: [
-        { title: 'harry potter', author: 'jk rowling', description: 'wizards', status: 'I have read' },
-        { title: 'Over the world', author: 'Starwars', description: 'Two Soups', status: 'I have not read' }
-      ]
+      books: [],
     }
   }
+
 
 
   /* TODO: Make a GET request to your API to fetch all the books from the database  */
@@ -26,6 +25,7 @@ class BestBooks extends React.Component {
       this.setState({
         books: bookData.data
       });
+      console.log('book data', bookData)
     } catch (error) {
       console.log(error.response)
     }
@@ -48,98 +48,99 @@ class BestBooks extends React.Component {
   }
 
 
-  //*** Create book handlers:  1 to handle the form subissio & 1 to the DB  */
-  handleBookSubmit = (event) => {
-    event.preventDefault();
-
-    let newBook = {
-      title:
-        description:
-      status:
-
-
-        //*** 2nd Handler to postBooks */
-        postBooks = async (bookObj) => {
-          try {
-            let url = `${process.env.REACT_APP_SERVER}/books`;
-            let createdBook = await axios.post(url, book, Obj);
-            this.setState({
-              books: [...this.state.books, createdBook.data]
-            })
-          } catch (error) {
-            console.log(error.message);
-          }
-
-          updateBooks = async (bookToUpdate) => {
-            try {
-              //TODO: URL SET FOR AXIOS 
-              let url = `${process.env.REACT_APP_SERVER}/cats/${bookToUpdate}`
-
-              let updatedBook = await axios.put(url, bookToUpdate);
-
-              //TODO: UPDATE STATE WITH THTA RETURN FROM AXIOS
-
-              let updateBookArray = this.state.books.map(existingBook => {
-
-                return existingBook._id === bookToUpdate._id
-                  ? updatedBook.data
-                  :existingBook
-                  
-
-            })
-
-            } catch (error) {
-              console.log(error.messgae)
-            }
-
-          }
+  //*** 2nd Handler to postBooks */
+  postBooks = async (bookObj) => {
+    try {
+      let url = `${process.env.REACT_APP_SERVER}/books`;
+      let createdBook = await axios.post(url);
+      this.setState({
+        books: [...this.state.books, createdBook.data]
+      })
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
 
 
+  updateBooks = async (bookToUpdate) => {
+    try {
+      //TODO: URL SET FOR AXIOS 
+      let url = `${process.env.REACT_APP_SERVER}/cats/${bookToUpdate}`
+
+      let updatedBook = await axios.put(url, bookToUpdate);
+
+      //TODO: UPDATE STATE WITH THTA RETURN FROM AXIOS
+
+      let updateBookArray = this.state.books.map(existingBook => {
+
+        return existingBook._id === bookToUpdate._id
+          ? updatedBook.data
+          : existingBook
 
 
+      })
 
-          //REACT LIFECYCLE METHOD
-          componentDidMount() {
-            this.getBooks()
-          }
+    } catch (error) {
+      console.log(error.messgae)
+    }
 
-          render() {
-            // console.log('App State >>>', this.state);
-            /* TODO: render all the books in a Carousel */
+  }
 
-            return (
-              <>
-                <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
-                {this.state.books.length ? (
-                  <Carousel slide={false}>
-                    {this.state.books.map((book, index) => {
-                      return (
-                        <Carousel.Item>
-                          <img src={bookimg} alt="books" />
-                          <p>{book.title}</p>
-                          <p>{book.description}</p>
-                          {book.status ? (
-                            <p>The book is available</p>
-                          ) : (
-                            <p>Book is not available</p>
-                          )}
-                          <Carousel.Caption>
-                            <Button onClick={this.deleteBooks(book._id)}>Delete a Book</Button>
-                          </Carousel.Caption>
-                        </Carousel.Item>
-                      )
-                    })}
 
-                  </Carousel>
-                ) : (
-                  <h3> No Books Found and I will add some more : (</h3>
-                )}
-                <Button variant="secondary" onClick={this.handdleShow}>Add a Book</Button>
-              </>
-            )
-          }
+  // //*** Create book handlers:  1 to handle the form subissio & 1 to the DB  */
+  // handleBookSubmit = (event) => {
+  //   event.preventDefault();
 
-        }
+  //   let newBook = {
+  //     title:,
+  //     description:,
+  //     status:
+  //   }
+  // }
 
-export default BestBooks;
+
+  //REACT LIFECYCLE METHOD
+  componentDidMount() {
+    this.getBooks()
+  }
+
+  render() {
+    // console.log('App State >>>', this.state);
+    /* TODO: render all the books in a Carousel */
+
+    return (
+      <>
+        <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
+        {this.state.books.length ? (
+          <Carousel slide={false}>
+            {this.state.books.map((book, index) => {
+              return (
+                <Carousel.Item>
+                  <img className='carouselimage' src={bookimg} alt="books" />
+                  <Carousel.Caption>
+                    <p>{book.title}</p>
+                    <p>{book.description}</p>
+                    {book.status ? (
+                      <p>The book is available</p>
+                    ) : (
+                      <p>Book is not available</p>
+                    )}
+                    <Button onClick={() => this.deleteBooks(book._id)}>Delete a Book</Button>
+                  </Carousel.Caption>
+                </Carousel.Item>
+              )
+            })}
+
+          </Carousel>
+        ) : (
+          <h3> No Books Found and I will add some more : (</h3>
+        )}
+        <Button variant="secondary" onClick={this.handleShow}>Add a Book</Button>
+      </>
+    )
+  }
+
+}
+
+export default Books;
