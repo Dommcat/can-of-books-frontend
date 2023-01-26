@@ -2,7 +2,8 @@ import axios from 'axios';
 import React from 'react';
 import { Carousel, Button } from 'react-bootstrap';
 import bookimg from './assets/bookimg.jpg'
-
+import BookModal from './BookModal.js'
+import BookUpdate from './BookUpdate.js'
 
 
 class Books extends React.Component {
@@ -10,10 +11,11 @@ class Books extends React.Component {
     super(props);
     this.state = {
       books: [],
+      showModal:false,
+      selectedbook:{},
+      showUpdateForm:false,
     }
   }
-
-
 
   /* TODO: Make a GET request to your API to fetch all the books from the database  */
 
@@ -52,7 +54,7 @@ class Books extends React.Component {
   postBooks = async (bookObj) => {
     try {
       let url = `${process.env.REACT_APP_SERVER}/books`;
-      let createdBook = await axios.post(url);
+      let createdBook = await axios.post(url, bookObj);
       this.setState({
         books: [...this.state.books, createdBook.data]
       })
@@ -63,41 +65,57 @@ class Books extends React.Component {
 
 
 
-  // updateBooks = async (bookToUpdate) => {
-  //   try {
-  //     //TODO: URL SET FOR AXIOS 
-  //     let url = `${process.env.REACT_APP_SERVER}/cats/${bookToUpdate}`
+  updateBooks = async (bookToUpdate) => {
+    try {
+      //TODO: URL SET FOR AXIOS 
+      let url = `${process.env.REACT_APP_SERVER}/books/${bookToUpdate._id}`
 
-  //     let updatedBook = await axios.put(url, bookToUpdate);
+      let updatedBook = await axios.put(url, bookToUpdate);
 
-  //     //TODO: UPDATE STATE WITH THTA RETURN FROM AXIOS
+      //TODO: UPDATE STATE WITH THTA RETURN FROM AXIOS
 
-  //     let updateBookArray = this.state.books.map(existingBook => {
+      let updateBookArray = this.state.books.map(existingBook => {
 
-  //       return existingBook._id === bookToUpdate._id
-  //         ? updatedBook.data
-  //         : existingBook
-
-
-  //     })
-
-  //   } catch (error) {
-  //     console.log(error.messgae)
-  //   }
-
-  // }
+        return existingBook._id === bookToUpdate._id
+          ? updatedBook.data
+          : existingBook
 
 
-  // //*** Create book handlers:  1 to handle the form subissio & 1 to the DB  */
-  // handleBookSubmit = (event) => {
-  //   event.preventDefault();
+      })
+      this.setState({
+        books:updateBookArray
+      })
+    } catch (error) {
+      console.log(error.messgae)
+    }
 
-  //   let newBook = {
-  //     title:,
-  //     description:,
-  //     status:
-  //   }
-  // }
+  }
+
+handleShow = () =>{
+  this.setState({
+    showModal:true
+  })
+}
+
+handleClose = () =>{
+  this.setState({
+    showModal:false,
+    showUpdateForm:false,
+
+  })
+}
+
+handleOpenUpdateForm = (bookObj) =>{
+  this.setState({
+    showUpdateForm:true, 
+    selectedbook:bookObj
+  })
+}
+
+
+
+  //*** Create book handlers:  1 to handle the form subissio & 1 to the DB  */
+ 
 
 
   //REACT LIFECYCLE METHOD
@@ -127,6 +145,7 @@ class Books extends React.Component {
                       <p>Book is not available</p>
                     )}
                     <Button onClick={() => this.deleteBooks(book._id)}>Delete a Book</Button>
+                    <Button onClick={() => this.handleOpenUpdateForm (book)}>Update Book</Button>
                   </Carousel.Caption>
                 </Carousel.Item>
               )
@@ -136,6 +155,8 @@ class Books extends React.Component {
         ) : (
           <h3> No Books Found and I will add some more : (</h3>
         )}
+        <BookModal showmodal={this.state.showModal} handleClose = {this.handleClose} postBooks = {this.postBooks}/>
+        <BookUpdate showmodal={this.state.showUpdateForm} handleClose = {this.handleClose} updateBooks = {this.updateBooks} selectedBook = {this.state.selectedbook}/>
         <Button variant="secondary" onClick={this.handleShow}>Add a Book</Button>
       </>
     )

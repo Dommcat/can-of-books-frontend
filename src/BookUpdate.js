@@ -1,105 +1,71 @@
 
 import React from 'react';
+import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import Modal from 'react-boostrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+
+
+import './BookModal';
 
 
 class BookUpdate extends React.Component {
+  handleBookSubmit = (event) => {
+    event.preventDefault();
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      _id: this.props.book?._id,
-      name: this.props.book?.title,
-      description: this.props.book.description,
-      read: this.book.read,
+    let newBook = {
+      title:event.target.name.value,
+      author:event.target.author.value,
+      description:event.target.description.value,
+      status:event.target.read.checked,
+      _id:this.props.selectedBook._id,
+      __v:this.props.selectedBook.__v,
 
     }
+    this.props.updateBooks(newBook);
+    this.props.handleClose(); 
   }
-
-  handleSubmit = event => {
-    event.preventDefault();
-    this.props.onUpdate(this.state);
-    this.handleClose();
-
-  };
-
-  handleChangeTitle = event => {
-    this.setState({ title: event.target.value });
-
-  };
-
-  handleChangeDesc = event => {
-    this.setState({ description: event.target.value });
-
-  };
-
-  handleChangeRead = event => {
-    this.setState({ read: event.target.checked });
-
-  };
-
-  handleClose = () => {
-    this.props.onClose();
-
-  };
-
   render() {
 
     return (
 
-      <Modal show={this.props.showModal} onHide={this.handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Book Update</Modal.Title>
+      <Modal show = {this.props.showmodal}
+      onHide = {this.props.handleClose}>
 
-
-        </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={this.handleSubmit} className="p-4" >
-            <Form.Label>
-              <h1>
-                Book Update
-              </h1>
-            </Form.Label>
-            <Form.Group className="mb-3">
-              <Form.Label>Title</Form.Label>
-              <Form.Control type="text"
-              placeholder="Book Title" 
-              onChange={this.handleTitleChange} 
-              value={this.state.title} />
-            </Form.Group>
+          <Container className="mt-5">
+            <Form onSubmit={this.handleBookSubmit}>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
-              <Form.Control type="text"
-              placeholder="Description" 
-              onChange={this.handleDescriptionChange} 
-              value={this.state.description} />
-            </Form.Group>
+              <Form.Group controlId="name">
+                <Form.Label>Title</Form.Label>
+                <Form.Control type="test" defaultValue = {this.props.selectedBook.title} />
+              </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Check type="checkbox" 
-              label="Read" 
-              onChange={this.handleReadChange} checked={this.state.read} />
-            </Form.Group>
-            <Button variant="dark" type="submit">
-              Submit
-            </Button>
-          </Form>
+              <Form.Group controlId="author">
+                <Form.Label>Author</Form.Label>
+                <Form.Control type="test" defaultValue = {this.props.selectedBook.author}/>
+              </Form.Group>
+
+
+              <Form.Group controlId="description">
+                <Form.Label>Description</Form.Label>
+                <Form.Control type="test" defaultValue = {this.props.selectedBook.description}/>
+              </Form.Group>
+
+              <Form.Group controlId="read">
+                <Form.Check type="checkbox" label="Read" defaultChecked = {this.props.selectedBook.status} />
+              </Form.Group>
+
+              <div className="flex justify-content-center">
+                <Button type="submit">Submit</Button></div>
+            </Form>
+
+          </Container>
         </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={this.handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-
       </Modal>
     );
   }
 }
 
 export default BookUpdate;
-
 
